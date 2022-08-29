@@ -38,7 +38,7 @@ const men = {
   species: "human",
   name: "Artur",
   gender: "male",
-  legs: 4,
+  legs: 2,
   hands: 2,
   saying: "Do not borrow tomorrow's troubles today.",
 };
