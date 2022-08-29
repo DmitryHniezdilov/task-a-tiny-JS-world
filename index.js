@@ -2,7 +2,7 @@
    Complete the below for code reviewers' convenience:
 
    Code repository: https://github.com/DmitryHniezdilov/task-a-tiny-JS-world
-   Web app: _put project's github pages URL here_
+   Web app: https://dmitryhniezdilov.github.io/task-a-tiny-JS-world/
    */
 
 // ======== OBJECTS DEFINITIONS ========
@@ -38,7 +38,7 @@ const men = {
   species: "human",
   name: "Artur",
   gender: "male",
-  legs: 4,
+  legs: 2,
   hands: 2,
   saying: "Do not borrow tomorrow's troubles today.",
 };
