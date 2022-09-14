@@ -7,57 +7,148 @@
 
 // ======== OBJECTS DEFINITIONS ========
 
-const dog = {
-  species: "dog",
-  name: "Togo",
-  gender: "male",
-  legs: 4,
-  hands: 0,
-  saying: "woof-woof!",
-};
+const SEPARATOR = ";";
 
-const cat = {
-  species: "cat",
-  name: "Murka",
-  gender: "female",
-  legs: 4,
-  hands: 0,
-  saying: "meow-meow!",
-};
+class Inhabitant {
+  constructor(species, name, gender, saying) {
+    this.species = species;
+    this.name = name;
+    this.gender = gender;
+    this.saying = saying || `Hello, I'm ${this.name}`;
+    this.friends = [];
+  }
 
-const bear = {
-  species: "character",
-  name: "Winnie",
-  gender: "male",
-  legs: 4,
-  hands: 0,
-  saying: "Think, think, think!",
-};
+  addFriends(...newFriends) {
+    this.friends = [...this.friends, ...newFriends];
+  }
 
-const man = {
-  species: "human",
-  name: "Artur",
-  gender: "male",
-  legs: 2,
-  hands: 2,
-  saying: "Do not borrow tomorrow's troubles today.",
-};
+  printEntries() {
+    const stringOfEntries = Object.entries(this).reduce((str, item) => {
+      const key = item[0];
+      const value = item[1];
 
-const woman = {
-  species: "human",
-  name: "Marilyn",
-  gender: "female",
-  legs: 2,
-  hands: 2,
-  saying: "A career is born in public – talent in privacy.",
-};
+      if (!value) return str;
+      if (Array.isArray(value) && !value.length) return str;
+      if (Array.isArray(value)) {
+        const listOfFriends = value.map((friend) => friend.name).join(", ");
+        return (str += key + ":" + " " + listOfFriends + SEPARATOR + " ");
+      }
+      return (str += key + ":" + " " + value + SEPARATOR + " ");
+    }, "");
+    print(stringOfEntries);
+  }
+}
 
-const listOfInhabitants = [dog, cat, bear, man, woman];
+class Human extends Inhabitant {
+  constructor(name, gender, saying) {
+    super("human", name, gender, saying);
+    this.legs = 2;
+    this.hands = 2;
+  }
+}
+
+class Man extends Human {
+  constructor(name, saying) {
+    super(name, "male", saying);
+  }
+}
+
+class Woman extends Human {
+  constructor(name, saying) {
+    super(name, "female", saying);
+  }
+}
+
+class Animal extends Inhabitant {
+  constructor(species, name, gender, saying) {
+    super(species, name, gender, saying);
+    this.paws = 4;
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, male) {
+    super("dog", name, male, "woof-woof!");
+  }
+}
+
+class Cat extends Animal {
+  constructor(name, male) {
+    super("cat", name, male, "meow-meow!");
+  }
+}
+
+class CharacterAnimal extends Inhabitant {
+  constructor(species, name, gender, saying) {
+    super(species, name, gender, saying);
+    this.paws = 4;
+  }
+}
+
+class CatWoman extends Cat {
+  constructor(name) {
+    super(name, "female");
+    this.species = "cat-woman";
+    this.paws = 0;
+    this.legs = 2;
+    this.hands = 2;
+  }
+}
+
+const Murka = new Cat("Murka", "female");
+const Tom = new Cat("Tom", "male");
+const Togo = new Dog("Togo", "male");
+const Hachiko = new Dog("Hachiko", "male");
+const Winnie = new CharacterAnimal(
+  "bear",
+  "Winnie",
+  "male",
+  "Think, think, think!"
+);
+const Artur = new Man("Artur", "Do not borrow tomorrow's troubles today.");
+const Maks = new Man("Maks");
+const Fred = new Man("Fred");
+const Marilyn = new Woman(
+  "Marilyn",
+  "A career is born in public – talent in privacy."
+);
+const Elena = new Woman("Elena");
+const Alina = new Woman("Alina");
+const Halle = new CatWoman("Halle");
+
+Winnie.addFriends(
+  Murka,
+  Tom,
+  Togo,
+  Hachiko,
+  Artur,
+  Maks,
+  Fred,
+  Marilyn,
+  Elena,
+  Alina
+);
+Artur.addFriends(Hachiko, Murka, Alina, Elena, Fred);
+Maks.addFriends(Tom, Togo, Marilyn, Fred);
+Fred.addFriends(Artur, Hachiko, Winnie, Marilyn, Elena);
+Marilyn.addFriends(Winnie, Maks, Elena);
+Elena.addFriends(Murka, Artur, Fred, Marilyn);
+
+const listOfInhabitants = [
+  Murka,
+  Tom,
+  Togo,
+  Hachiko,
+  Winnie,
+  Artur,
+  Maks,
+  Fred,
+  Marilyn,
+  Elena,
+  Alina,
+  Halle,
+];
 
 // ======== OUTPUT ========
 
-listOfInhabitants.forEach((item) => {
-  const separator = "; ";
-  const listOfValues = Object.values(item).join(separator);
-  print(listOfValues);
-});
+listOfInhabitants.forEach((inhabitant) => inhabitant.printEntries());
