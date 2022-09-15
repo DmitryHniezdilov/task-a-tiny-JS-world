@@ -7,7 +7,7 @@
 
 // ======== OBJECTS DEFINITIONS ========
 
-const SEPARATOR = ";";
+"use strict";
 
 class Inhabitant {
   constructor(species, name, gender, saying) {
@@ -23,17 +23,15 @@ class Inhabitant {
   }
 
   printEntries() {
-    const stringOfEntries = Object.entries(this).reduce((str, item) => {
-      const key = item[0];
-      const value = item[1];
-
+    const stringOfEntries = Object.entries(this).reduce((str, [key, value]) => {
       if (!value) return str;
-      if (Array.isArray(value) && !value.length) return str;
-      if (Array.isArray(value)) {
+      const isValueArray = Array.isArray(value);
+      if (isValueArray && !value.length) return str;
+      if (isValueArray) {
         const listOfFriends = value.map((friend) => friend.name).join(", ");
-        return (str += key + ":" + " " + listOfFriends + SEPARATOR + " ");
+        return (str += `${key}: ${listOfFriends}; `);
       }
-      return (str += key + ":" + " " + value + SEPARATOR + " ");
+      return (str += `${key}: ${value}; `);
     }, "");
     print(stringOfEntries);
   }
@@ -85,13 +83,11 @@ class CharacterAnimal extends Inhabitant {
   }
 }
 
-class CatWoman extends Cat {
+class CatWoman extends Woman {
   constructor(name) {
-    super(name, "female");
+    super(name);
     this.species = "cat-woman";
-    this.paws = 0;
-    this.legs = 2;
-    this.hands = 2;
+    this.saying = Object.getOwnPropertyDescriptor(new Cat(), "saying").value;
   }
 }
 
