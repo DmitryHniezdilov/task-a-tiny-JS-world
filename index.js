@@ -75,17 +75,6 @@ class Woman extends Human {
   constructor(name, saying) {
     super(name, "female", saying);
   }
-
-  printProps() {
-    super.printProps(
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined
-    );
-  }
 }
 
 class Animal extends Inhabitant {
